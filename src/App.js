@@ -1,7 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
+import {useEffect} from "react";
+import {testValidateString} from "./validation";
 
 function App() {
+  useEffect(() => {
+    testValidateString()
+  }, [])
+
   return (
     <div className="App">
       <header className="App-header">

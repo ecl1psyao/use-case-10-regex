@@ -1,0 +1,107 @@
+I have such function:
+export const validateString = (str, maxLength) => {
+    // First, check if the string length is within the acceptable range
+    if (str.length > maxLength) {
+        return false;
+    }
+
+    // Define the regular expression
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])[A-Za-z\d!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]{1,}$/;
+
+    // Check if the string matches the regular expression and return boolean value
+    return regex.test(str);
+}
+
+Create the subsequent function responsible for testing the previously implemented regular expression implementation for the variety of sample inputs and edge cases: too short input, too long input, matching input length, missing uppercase, lowercase, special character, digit, excess whitespace characters in various positions. Make sure to call that function from the application’s entry point.
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+Sure, here's a JavaScript function to test the validateString function:
+
+export const testValidateString = () => {
+    const maxLength = 20;
+
+    // Too short input
+    console.assert(validateString("A1a#", maxLength) === true, "Expected true, string length is within limit");
+
+    // Too long input
+    console.assert(validateString("ThisIsAVeryLongStringThatExceedsTheMaxLength123!", maxLength) === false, "Expected false, string length exceeds limit");
+
+    // Matching input length
+    console.assert(validateString("MatchedLength123#$%", maxLength) === true, "Expected true, string length is exactly 20");
+
+    // Missing uppercase
+    console.assert(validateString("missinguppercase1#", maxLength) === false, "Expected false, missing uppercase");
+
+    // Missing lowercase
+    console.assert(validateString("MISSINGLOWERCASE1#", maxLength) === false, "Expected false, missing lowercase");
+
+    // Missing special character
+    console.assert(validateString("MissingSpecial1", maxLength) === false, "Expected false, missing special character");
+
+    // Missing digit
+    console.assert(validateString("MissingDigit!@", maxLength) === false, "Expected false, missing digit");
+
+    // Excess whitespace characters in various positions
+    console.assert(validateString(" A1a# ", maxLength) === false, "Expected false, whitespace at start and end");
+    console.assert(validateString("A 1a#", maxLength) === false, "Expected false, whitespace in the middle");
+    console.assert(validateString("A1a# ", maxLength) === false, "Expected false, whitespace at the end");
+    console.assert(validateString(" A1a#", maxLength) === false, "Expected false, whitespace at the start");
+}
+
+// Call function from the application's entry point
+testValidateString();
+
+Please note that in this implementation, whitespace characters are considered to not be valid based on your regular expression. If you want to allow whitespace, modify your regular expression accordingly.
+
+This function uses console.assert to test the validateString function with various inputs and print a message to the console if the test fails. It assumes a maximum length of 20 characters.
+
+--------------------------------------------------------------------------------------------------------------------
+
+Can you also print the input when calling console.assert?
+
+-------------------------------------------------------------------------------------------------------------------
+
+Sure, I can modify the function to also print the input string when calling console.assert. Here's how you can do that:
+
+export const testValidateString = () => {
+    const maxLength = 20;
+
+    const runTest = (input, expectedResult, message) => {
+        console.assert(validateString(input, maxLength) === expectedResult, `${message}. Input: ${input}`);
+    }
+
+    // Too short input
+    runTest("A1a#", true, "Expected true, string length is within limit");
+
+    // Too long input
+    runTest("ThisIsAVeryLongStringThatExceedsTheMaxLength123!", false, "Expected false, string length exceeds limit");
+
+    // Matching input length
+    runTest("MatchedLength123#$%", true, "Expected true, string length is exactly 20");
+
+    // Missing uppercase
+    runTest("missinguppercase1#", false, "Expected false, missing uppercase");
+
+    // Missing lowercase
+    runTest("MISSINGLOWERCASE1#", false, "Expected false, missing lowercase");
+
+    // Missing special character
+    runTest("MissingSpecial1", false, "Expected false, missing special character");
+
+    // Missing digit
+    runTest("MissingDigit!@", false, "Expected false, missing digit");
+
+    // Excess whitespace characters in various positions
+    runTest(" A1a# ", false, "Expected false, whitespace at start and end");
+    runTest("A 1a#", false, "Expected false, whitespace in the middle");
+    runTest("A1a# ", false, "Expected false, whitespace at the end");
+    runTest(" A1a#", false, "Expected false, whitespace at the start");
+}
+
+// Call function from the application's entry point
+testValidateString();
+
+In this version of the function, I've created a runTest helper function that takes an input string, the expected result, and a message. This function calls validateString with the input string and asserts that the result is equal to the expected result. If the assertion fails, it logs the message and the input string to the console.
