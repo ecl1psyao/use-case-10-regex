@@ -1,0 +1,129 @@
+I have base React application with such App.js file:
+import logo from './logo.svg';
+import './App.css';
+import {useEffect} from "react";
+import {testValidateString} from "./validation";
+
+function App() {
+  useEffect(() => {
+    testValidateString()
+  }, [])
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
+}
+
+export default App;
+
+Validation file looks like this:
+export const validateString = (str, maxLength) => {
+    // First, check if the string length is within the acceptable range
+    if (str.length > maxLength) {
+        return false;
+    }
+
+    // Define the regular expression
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])[A-Za-z\d!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]{1,}$/;
+
+    // Check if the string matches the regular expression and return boolean value
+    return regex.test(str);
+}
+
+export const testValidateString = () => {
+    const maxLength = 20;
+
+    const runTest = (input, expectedResult, message) => {
+        console.assert(validateString(input, maxLength) === expectedResult, `${message}. Input: ${input}`);
+    }
+
+    // Too short input
+    runTest("A1a#", true, "Expected true, string length is within limit");
+
+    // Too long input
+    runTest("ThisIsAVeryLongStringThatExceedsTheMaxLength123!", false, "Expected false, string length exceeds limit");
+
+    // Matching input length
+    runTest("MatchedLength123#$%", true, "Expected true, string length is exactly 20");
+
+    // Missing uppercase
+    runTest("missinguppercase1#", false, "Expected false, missing uppercase");
+
+    // Missing lowercase
+    runTest("MISSINGLOWERCASE1#", false, "Expected false, missing lowercase");
+
+    // Missing special character
+    runTest("MissingSpecial1", false, "Expected false, missing special character");
+
+    // Missing digit
+    runTest("MissingDigit!@", false, "Expected false, missing digit");
+
+    // Excess whitespace characters in various positions
+    runTest(" A1a# ", false, "Expected false, whitespace at start and end");
+    runTest("A 1a#", false, "Expected false, whitespace in the middle");
+    runTest("A1a# ", false, "Expected false, whitespace at the end");
+    runTest(" A1a#", false, "Expected false, whitespace at the start");
+}
+
+Update Readme.md with :
+- Application description: 1 paragraph, 2-5 Sentences.
+- Regex implementation description: 1 paragraph, 4-10 Sentences.
+- Information on how to run the developed application locally.
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+Sure, here's an updated README.md file for your application.
+
+---
+
+# React Validation Application
+
+This application is a base React application, which integrates a comprehensive string validation functionality. The application uses a predefined regex to validate a string, based on certain conditions such as string length, existence of uppercase and lowercase letters, digits, and special characters.
+
+## Regex Implementation
+
+The `validateString` function in the application validates a string based on several conditions. First, it checks if the length of the string is within the predefined limit, rejecting any string longer than the set maximum length. Second, it utilizes a regular expression to ensure that the string contains at least one lowercase letter, one uppercase letter, one digit, and one special character. Furthermore, the function strictly disallows any whitespace characters in any position in the string. The regex tests the string and returns a boolean value indicating if the string meets all these conditions.
+
+## Running the Application Locally
+
+Follow the steps below to run the application on your local machine:
+
+1. Clone the repository to your local machine:
+    ```
+    git clone <repository-url>
+    ```
+
+2. Navigate to the project directory:
+    ```
+    cd <project-directory>
+    ```
+
+3. Install the necessary npm packages:
+    ```
+    npm install
+    ```
+
+4. Start the application:
+    ```
+    npm start
+    ```
+
+The application will start, and by default will be available at `http://localhost:3000` on your browser.
+
+If you wish to see the validation test outputs, please check your browser's console while running the application. The application executes a set of predefined tests on the validation function at the start, and logs the output in the console.
