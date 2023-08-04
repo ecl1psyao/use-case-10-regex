@@ -1,0 +1,78 @@
+I have React.js application.
+
+Create a function implementing the regular expression validation according to the defined acceptance criteria. The function should accept the string to match and return the Boolean matching result.
+
+Acceptance criteria
+
+All technologies
+
+Compose function with a single regular expression that successfully meets requirements below:
+
+This regular expression should validate the maximum string length (passed as parameter); it should return a match if the string length is within the acceptable range and a non-match if it is not.
+
+This regular expression should also validate that the string contains at least one uppercase letter, one lowercase letter, one digit, and one special character from a predefined list: !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~. It should return a match if the criteria are met and a non-match if they are not.
+
+This regular expression should validate that the string does not contain any whitespace characters (spaces, tabs, or newlines). This should return a non-match if any whitespace characters are found.
+
+The regular expression should be optimized for execution speed and simplicity. The regular expression should still fulfill all the above criteria.
+
+The regular expression should be tested in code on a variety of sample inputs and edge cases (10) to ensure the regex is functioning properly.
+
+The regular expression should be implemented within the code in a way that it can be easily reused for various inputs.
+
+Implementation should not introduce any unexpected behavior or bugs.
+
+Clear and concise documentation should be provided for the regular expression, explaining how it works, and any caveats or limitations.
+
+Node.js/React
+
+JS application should contain and be able to execute language/framework-specific regex implementation.
+
+
+-------------------------------------------------------------------------------------------------------------
+
+To create the regular expression and use it in a function, you can follow these steps:
+
+Firstly, define a function with the name validateString that will take the input string and the maximum acceptable length as parameters. In this function, we will define our regular expression to fulfill the required criteria. This function will return true if the string meets all requirements and false otherwise.
+
+Here's how the function could look like:
+
+function validateString(str, maxLength) {
+    // First, check if the string length is within the acceptable range
+    if (str.length > maxLength) {
+        return false;
+    }
+
+    // Define the regular expression
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])[A-Za-z\d!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]{1,}$/;
+
+    // Check if the string matches the regular expression
+    const match = regex.test(str);
+
+    // Return the result
+    return match;
+}
+
+The regular expression ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_{|}~])[A-Za-z\d!"#$%&'()*+,-./:;<=>?@[]^_{|}~]{1,}$ works as follows:
+
+^ asserts start of line.
+(?=.*[a-z]) is a positive lookahead, ensuring at least one lowercase letter exists.
+(?=.*[A-Z]) ensures at least one uppercase letter exists.
+(?=.*\d) ensures at least one digit exists.
+(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_{|}~])` ensures at least one special character from the given set exists.
+[A-Za-z\d!"#$%&'()*+,-./:;<=>?@[\]^_{|}~]{1,}` ensures all characters in the string are from the specified set (upper-case, lower-case, digit, special character) and there's at least one character.
+$ asserts end of line.
+
+Test the function:
+console.log(validateString('Reactjs@123', 20)); // Expected output: true
+console.log(validateString('React', 20)); // Expected output: false
+console.log(validateString('reactjs123', 20)); // Expected output: false
+console.log(validateString('REACTJS123', 20)); // Expected output: false
+console.log(validateString('React@123', 5)); // Expected output: false
+console.log(validateString('R@js#1', 7)); // Expected output: true
+console.log(validateString('R@js#1 ', 8)); // Expected output: false
+console.log(validateString('REACTJS123@#', 5)); // Expected output: false
+console.log(validateString('reactjs@#', 20)); // Expected output: false
+console.log(validateString(' ', 1)); // Expected output: false
+
+This function should work well for the most part, but it's not perfect. JavaScript's regular expressions are limited in some ways compared to those in other languages, so there may be some edge cases this function doesn't handle correctly. Also, remember to thoroughly test your regular expressions with your own test cases to ensure they work for your specific needs.
